@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Pembelajaran Matematika - SPLDV </title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<style>
+    
+    header{
+  text-align:center;
+  padding:35px 20px;
+}
+
+.main-title{
+  font-size:30px;
+  font-weight:700;
+  white-space:nowrap;     /* ⬅️ INI KUNCI UTAMA */
+}
+
+.sub-title{
+  font-size:26px;
+  font-weight:700;
+  margin-top:6px;
+}
+
+    /* ===== MODE HP ===== */
+@media (max-width: 768px) {
+
+  header{
+    padding:20px 15px;
+  }
+
+  .top-title{font-size:14px;}
+  .main-title{
+   font-size:22px;
+   white-space:nowrap;   /* ⬅️ PENTING DI HP */
+}
+  .sub-title{font-size:18px;}
+
+  .container{
+    max-width: 100%;
+    margin: 10px;
+    padding: 18px;
+    border-radius: 22px;
+  }
+
+  .menu{
+    grid-template-columns: 1fr;
+    gap:12px;
+  }
+
+  .menu button{
+    padding:16px;
+    font-size:15px;
+    border-radius:20px;
+  }
+
+  .page{
+    padding:18px;
+    border-radius:20px;
+  }
+
+  .section{
+    padding:15px;
+    border-radius:16px;
+    font-size:14px;
+  }
+
+  h1{
+    font-size:18px;
+  }
+
+  .persamaan{
+    flex-wrap:wrap;
+    gap:6px;
+  }
+
+  .persamaan input{
+    width:60px;
+    padding:6px;
+    font-size:14px;
+  }
+
+  .btn-main{
+    padding:14px;
+    font-size:14px;
+    border-radius:18px;
+  }
+
+  footer{
+    font-size:13px;
+    padding:20px 10px;
+  }
+}
+*{box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{
+  margin:0;
+  min-height:100vh;
+  background:linear-gradient(160deg,#ffd6e8,#dbe6ff,#e7ffe9);
+  color:#2d2d2d;
+}
+header{text-align:center;padding:35px 20px;}
+.top-title{font-size:18px;}
+.main-title{font-size:30px;font-weight:700;}
+.sub-title{font-size:26px;font-weight:700;}
+
+.container{
+  max-width:1150px;
+  margin:20px auto 40px;
+  padding:30px;
+  background:rgba(255,255,255,0.9);
+  border-radius:35px;
+  box-shadow:0 30px 60px rgba(0,0,0,0.15);
+}
+
+.menu{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:20px;
+}
+.menu button{
+  padding:22px;
+  border:none;
+  border-radius:28px;
+  font-size:16px;
+  font-weight:600;
+  cursor:pointer;
+  background:linear-gradient(135deg,#a5b4ff,#ffb3d9);
+  color:white;
+}
+
+.page{
+  display:none;
+  margin-top:35px;
+  padding:35px;
+  border-radius:30px;
+  background:linear-gradient(160deg,#fdfcff,#f2f6ff);
+  box-shadow:0 20px 40px rgba(0,0,0,.15);
+}
+
+.section{
+  background:linear-gradient(135deg,#fff1f7,#eef3ff);
+  padding:22px;
+  border-radius:22px;
+  margin-bottom:20px;
+}
+
+.btn-main{
+  margin-top:15px;
+  padding:15px;
+  width:100%;
+  border:none;
+  border-radius:25px;
+  background:linear-gradient(135deg,#8fa8ff,#b7c7ff);
+  color:white;
+  font-weight:600;
+}
+
+.sim-card{
+  background:linear-gradient(135deg,#eaf1ff,#f4f8ff);
+}
+.persamaan{
+  display:flex;
+  align-items:center;   /* ⬅️ INI YANG PENTING */
+  justify-content:center;
+  gap:8px;
+  margin-bottom:14px;
+}
+.persamaan input{
+  width:60px;
+  padding:8px;
+  border-radius:14px;
+  border:2px solid #9db7ff;
+  text-align:center;
+  background:#ffffff;
+}
+}
+.persamaan span{
+  font-weight:700;
+  font-size:18px;
+  color:#5c7cff; /* biru pastel */
+  line-height:1;
+}
+.result.lucu{
+  background:#eef3ff;
+  border:2px dashed #9db7ff;
+  padding:18px;
+  border-radius:20px;
+  text-align:center;
+  font-weight:600;
+}
+body{
+  margin:0;
+  min-height:100vh;
+  background:linear-gradient(160deg,#ffd6e8,#dbe6ff,#e7ffe9);
+  color:#2d2d2d;
+  overflow-x:hidden;
+}
+
+footer{text-align:center;padding:30px;color:#555;}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="top-title">Pembelajaran Matematika</div>
+  <div class="main-title">Sistem Persamaan Linear</div>
+  <div class="sub-title">Dua Variabel</div>
+</header>
+
+<div class="container">
+
+<div class="menu">
+  <button onclick="showPage('materi')">📘 Materi</button>
+  <button onclick="showPage('contoh')">✏️ Contoh Soal</button>
+  <button onclick="showPage('simulator')">🧮 Simulator</button>
+  <button onclick="showPage('kuis')">📝 Kuis</button>
+  <button onclick="showPage('info')">ℹ️ Info</button>
+</div>
+
+<!-- MATERI -->
+<div id="materi" class="page">
+<h2>📘 Materi SPLDV</h2>
+
+<div class="section">
+<b>Pengertian SPLDV</b><br><br>
+SPLDV atau Sistem Persamaan Linear Dua Variabel adalah materi matematika yang membahas persamaan linear dengan dua variabel (x dan y). Melalui SPLDV, kita dapat mengetahui nilai dari kedua variabel tersebut berdasarkan data yang diketahui, sehingga permasalahan seperti menghitung harga, jumlah, atau kebutuhan dapat diselesaikan secara sistematis dan tepat.
+</div>
+
+<div class="section">
+<b>Bentuk Umum:</b><br>
+ax + by = c
+<ul>
+<li>x dan y adalah variabel.</li>
+<li>a dan b adalah koefisien dan tidak boleh nol.</li>
+<li>c adalah konstanta.</li>
+</ul>
+</div>
+
+<div class="section">
+<b>Ciri-Ciri SPLDV:</b><br>
+<ul>
+<li>Terdiri dari dua variabel</li>
+<li>Setiap variabel memiliki derajat satu atau berpangkat satu</li>
+<li>Menggunakan tanda sama dengan (=)</li>
+<li>Tidak terdapat perkalian antar variabel dalam satu persamaan</li>
+</ul>
+</div>
+
+<div class="section">
+<b>Metode Penyelesaian:</b>
+<ul>
+<li> <b>Eliminasi</b> <br> yaitu menghilangkan salah satu variabel dengan cara menjumlahkan atau mengurangkan kedua persamaan.</li>
+<li> <b> Substitusi </b> yaitu mengganti salah satu variabel dari satu persamaan ke persamaan lainnya.</li>
+<li> <b> Grafik </b> yaitu menggambar kedua persamaan pada bidang koordinat untuk menentukan titik potongnya. </li>
+<li> <b> Campuran </b> yaitu menggabungkan metode eliminasi dan substitusi agar lebih mudah diselesaikan. </li>
+</ul>
+</div>
+</div>
+
+<!-- CONTOH -->
+<div id="contoh" class="page">
+<h2>✏️ Contoh Soal SPLDV</h2>
+
+<!-- ================= SOAL 1 (BIRU PASTEL) ================= -->
+<div class="section" style="background:#eef4ff;border-left:8px solid #9db7ff;max-width:700px">
+
+<b>Soal 1</b><br><br>
+Harga 3 buku tulis dan 2 pensil adalah Rp 11.500, sedangkan harga 4 buku tulis dan 3 pensil adalah Rp 16.000. Jika Nisa ingin membeli 2 buku tulis dan 1 pulpen, berapa harga yang harus dibayar?
+
+<hr>
+
+<b>Penyelesaian:</b><br><br>
+
+Misalkan:<br>
+Buku tulis = x<br>
+Pulpen = y<br><br>
+
+<b style="color:#6f8cff">Persamaan 1: 3x + 2y = 11.500</b><br>
+<b style="color:#ff9ecf">Persamaan 2: 4x + 3y = 16.000</b><br>
+<b style="color:#b18cff">Ditanya: 2x + y = ?</b><br><br>
+
+<b>Eliminasi variabel x</b><br>
+3x + 2y = 11.500 (×4)<br>
+4x + 3y = 16.000 (×3)<br><br>
+
+<span style="text-decoration:line-through">12x</span> + 8y = 46.000<br>
+<span style="text-decoration:line-through">12x</span> + 9y = 48.000<br>
+<hr>
+
+<b>-1y</b> = <b>-2.000</b><br>
+y = -2.000 : -1<br>
+<b style="color:#4fc3a1">y = 2.000</b><br><br>
+
+<b>Substitusi variabel y</b><br>
+<b style="color:#6f8cff">3x + 2y = 11.500</b><br>
+3x + 2(2.000) = 11.500<br>
+3x + 4.000 = 11.500<br>
+3x = 11.500 - 4.000<br>
+3x = 7.500<br>
+x = 7.500 : 3<br>
+<b style="color:#4fc3a1">x = 2.500</b><br><br>
+
+<b>Substitusi nilai x dan y</b><br>
+2x + y = ?<br>
+2(2.500) + 2.000<br>
+5.000 + 2.000<br>
+= Rp 7.000<br>
+
+<hr>
+
+<b>Kesimpulan:</b><br>
+Jadi, jika Nisa ingin membeli 1 buku tulis dan 1 pulpen, maka ia harus membayar sebesar  
+<b>Rp 7.000</b>.
+
+
+</div>
+
+<!-- ================= SOAL 2 (PINK PASTEL) ================= -->
+<div class="section"
+style="background:#f6f0ff;border-left:8px solid #b18cff;max-width:700px">
+
+<b>Soal 2</b><br><br>
+Harga 2 pensil dan 1 penghapus adalah Rp 5.000, sedangkan harga 3 pensil dan 2 penghapus adalah Rp 8.000. Jika Lita ingin membeli 1 pensil dan 1 penghapus, berapa harga yang harus dibayar?
+
+<hr>
+
+<b>Penyelesaian:</b><br><br>
+
+Misalkan:<br>
+Pensil = x<br>
+Penghapus = y<br><br>
+
+<b style="color:#ff7fbf">Persamaan 1: 2x + y = 5.000</b><br>
+<b style="color:#c77dff">Persamaan 2: 3x + 2y = 8.000</b><br>
+<b style="color:#6f8cff">Ditanya: x + y = ?</b><br><br>
+
+<b>Eliminasi variabel y</b><br>
+2x + y = 5.000 (×2)<br>
+3x + 2y = 8.000 (×1)<br><br>
+
+4x + <span style="text-decoration:line-through">2y</span> = 10.000<br>
+3x + <span style="text-decoration:line-through">2y</span> = 8.000<br>
+<hr>
+
+x = 2.000<br><br>
+
+<b>Substitusi nilai x</b><br>
+2x + y = 5.000<br>
+2(2.000) + y = 5.000<br>
+y = 1.000<br><br>
+
+<b>Substitusi nilai x dan y</b><br>
+x + y = ?<br>
+2.000 + 1.000<br>
+= Rp 3.000<br>
+
+<hr>
+
+<b>Kesimpulan:</b><br>
+Jadi, jika Lita ingin membeli 1 pensil dan 1 penghapus, maka ia harus membayar sebesar  
+<b>Rp 3.000</b>.
+
+</div>
+
+<!-- ================= SOAL 3 (UNGU PASTEL) ================= -->
+<div class="section" 
+style="background:#fff0f6;border-left:8px solid #ff9ecf;max-width:700px">
+
+<b>Soal 3</b><br><br>
+Harga 2 apel dan 3 jeruk adalah Rp 14.000, sedangkan harga 3 apel dan 2 jeruk adalah Rp 16.000. Jika Hesy ingin membeli 1 apel dan 4 jeruk, berapa harga yang harus dibayar?
+
+<hr>
+
+<b>Penyelesaian:</b><br><br>
+
+Misalkan:<br>
+Apel = x<br>
+Jeruk = y<br><br>
+
+<b style="color:#7b6cff">Persamaan 1: 2x + 3y = 14.000</b><br>
+<b style="color:#ff9ecf">Persamaan 2: 3x + 2y = 16.000</b><br>
+<b style="color:#6fcf97">Ditanya: x + 4y = ?</b><br><br>
+
+<b>Eliminasi variabel x</b><br>
+2x + 3y = 14.000 (×3)<br>
+3x + 2y = 16.000 (×2)<br><br>
+
+<span style="text-decoration:line-through">6x</span> + 9y = 42.000<br>
+<span style="text-decoration:line-through">6x</span> + 4y = 32.000<br>
+<hr>
+
+5y = 10.000<br>
+y = 2.000<br><br>
+
+<b>Substitusi nilai y</b><br>
+2x + 3(2.000) = 14.000<br>
+2x + 6.000 = 14.000<br>
+2x = 8.000<br>
+x = 4.000<br><br>
+
+<b>Substitusi nilai x dan y</b><br>
+x + 4y = ?<br>
+4.000 + 4(2.000)<br>
+4.000 + 8.000<br>
+= Rp 12.000<br>
+
+<hr>
+
+<b>Kesimpulan:</b><br>
+Jadi, jika Hesy ingin membeli 1 apel dan 4 jeruk, maka ia harus membayar sebesar  
+<b>Rp 12.000</b>.
+
+</div>
+
+</div>
+
+<div id="simulator" class="page">
+<h2>🧮 Simulator SPLDV</h2>
+
+<div class="section sim-card">
+
+  <div class="persamaan">
+    <input id="a1" placeholder="x">
+    <span>+</span>
+    <input id="b1" placeholder="y">
+    <span>=</span>
+    <input id="c1" placeholder="hasil">
+  </div>
+
+  <div class="persamaan">
+    <input id="a2" placeholder="x">
+    <span>+</span>
+    <input id="b2" placeholder="y">
+    <span>=</span>
+    <input id="c2" placeholder="hasil">
+  </div>
+
+  <button class="btn-main pink" onclick="hitungSPLDV()"> Hitung Nilai x dan y</button>
+
+  <div id="hasil" class="result lucu"></div>
+
+</div>
+</div>
+
+<!-- KUIS -->
+<div id="kuis" class="page">
+<h2>📝 Kuis SPLDV</h2>
+<div class="section sim-card">
+  <div id="soal"></div>
+  <div id="opsi"></div>
+  <div style="display:flex;gap:10px">
+  <button class="btn-main" id="btnPrev" onclick="prev()">⬅ Kembali</button>
+  <button class="btn-main" id="btn" onclick="next()">Lanjut</button>
+</div>
+
+<div id="skor" class="result lucu" style="display:none;margin-top:30px"></div>
+</div>
+</div>
+
+<!-- INFO -->
+<div id="info" class="page">
+<h2>ℹ️ Tentang Kami</h2>
+<div class="section sim-card">
+<b>Dibuat oleh Kelompok 10 (SPLDV)</b><br><br>
+- Annisa<br>
+- Azahra Jelita<br>
+- Hesy<br><br>
+<b>Kelas XII TKJ 1</b>
+</div>
+</div>
+
+</div>
+
+<footer>
+Guru Pengampu<br><b>Lina Andriani, S.Pd</b><br>SMK Muhammadiyah Loa Janan
+</footer>
+
+<script>
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.style.display='none');
+  document.getElementById(id).style.display='block';
+}
+
+/* ===== PERBAIKAN SIMULATOR ===== */
+function hitungSPLDV(){
+  let a = parseFloat(document.getElementById("a1").value);
+  let b = parseFloat(document.getElementById("b1").value);
+  let c = parseFloat(document.getElementById("c1").value);
+
+  let d = parseFloat(document.getElementById("a2").value);
+  let e = parseFloat(document.getElementById("b2").value);
+  let f = parseFloat(document.getElementById("c2").value);
+
+  if (isNaN(a) || isNaN(b) || isNaN(c) || isNaN(d) || isNaN(e) || isNaN(f)) {
+    hasil.innerHTML = "⚠️ Semua kolom harus diisi!";
+    return;
+  }
+
+  let det = a * e - b * d;
+
+  if (det === 0) {
+    hasil.innerHTML = "❌ Tidak ada solusi";
+    return;
+  }
+
+  let x = (c * e - b * f) / det;
+  let y = (a * f - c * d) / det;
+
+  hasil.innerHTML = ` Hasil:<br>x = ${x}<br>y = ${y}`;
+}
+/* ===== AKHIR PERBAIKAN ===== */
+
+const quiz = [
+ {
+  q:"Bentuk umum dari Sistem Persamaan Linear Dua Variabel adalah …",
+  o:[
+   "𝑥 + 𝑦 = 0",
+   "𝑥² + 𝑦² = c",
+   "a𝑥 + b𝑦 = c",
+   "𝑥y = c"
+  ],
+  a:2
+ },
+ {
+  q:"Pada persamaan 3𝑥 + 2𝑦 = 6, yang disebut koefisien adalah …",
+  o:[
+   "3 dan 2",
+   "6",
+   "𝑥 dan 𝑦",
+   "3𝑥 dan 2𝑦"
+  ],
+  a:0
+ },
+ {
+  q:"Metode yang digunakan untuk menghilangkan salah satu variabel dengan cara menjumlahkan atau mengurangkan kedua persamaan disebut metode …",
+  o:[
+   "Substitusi",
+   "Grafik",
+   "Eliminasi",
+   "Campuran"
+  ],
+  a:2
+ },
+ {
+  q:"Metode penyelesaian SPLDV dengan cara mengganti nilai salah satu variabel ke persamaan lain disebut metode …",
+  o:[
+   "Eliminasi",
+   "Grafik",
+   "Substitusi",
+   "Campuran"
+  ],
+  a:2
+ },
+ {
+  q:"Pada persamaan a𝑥 + b𝑦 = c, yang merupakan konstanta adalah …",
+  o:["a","b","c","𝑥"],
+  a:2
+ },
+ {
+  q:"Metode grafik dalam SPLDV dilakukan dengan cara …",
+  o:[
+   "Menjumlahkan kedua persamaan",
+   "Mengurangkan kedua persamaan",
+   "Menggambar kedua persamaan pada bidang koordinat",
+   "Mengalikan kedua persamaan"
+  ],
+  a:2
+ },
+ {
+  q:"Pada persamaan 3𝑥 + 2𝑦 = 6, yang disebut variabel adalah …",
+  o:[
+   "3 dan 2",
+   "6",
+   "𝑥 dan 𝑦",
+   "3𝑥 dan 2𝑦"
+  ],
+  a:2
+ },
+ {
+  q:"Harga 2 tiket bioskop dewasa dan 3 tiket anak adalah Rp 90.000. Harga 1 tiket dewasa dan 2 tiket anak adalah Rp 40.000. Tentukan harga 1 tiket dewasa (𝑥) dan 1 tiket anak (𝑦).",
+  o:[
+   "𝑥 = 20.000, 𝑦 = 15.000",
+   "𝑥 = 25.000, 𝑦 = 10.000",
+   "𝑥 = 30.000, 𝑦 = 10.000",
+   "𝑥 = 35.000, 𝑦 = 15.000"
+  ],
+  a:1
+ },
+ {
+  q:"Harga 4 bunga matahari dan 3 anggrek seharga Rp 110.000. Harga 2 bunga matahari dan 5 anggrek adalah Rp 120.000. Tentukan harga 1 bunga matahari (𝑥) dan 1 anggrek (𝑦).",
+  o:[
+   "𝑥 = 10.000, 𝑦 = 20.000",
+   "𝑥 = 15.000, 𝑦 = 20.000",
+   "𝑥 = 20.000, 𝑦 = 15.000",
+   "𝑥 = 25.000, 𝑦 = 15.000"
+  ],
+  a:2
+ },
+ {
+  q:"Sebuah sekolah membeli 3 router dan 2 switch seharga Rp 4.500.000. Harga 2 router dan 3 switch adalah Rp 4.400.000. Tentukan harga 1 router (𝑥) dan 1 switch (𝑦).",
+  o:[
+   "𝑥 = 800.000, 𝑦 = 1.000.000",
+   "𝑥 = 900.000, 𝑦 = 1.000.000",
+   "𝑥 = 1.000.000, 𝑦 = 800.000",
+   "𝑥 = 1.200.000, 𝑦 = 700.000"
+  ],
+  a:1
+ }
+];
+
+let i = 0;
+let ans = [];
+function render(){
+  soal.innerHTML = `<b>Soal ${i+1}</b><br><br>${quiz[i].q}`;
+
+  opsi.innerHTML = quiz[i].o.map((o,j)=>`
+    <label style="display:block;margin:6px 0">
+      <input type="radio" name="o"
+      ${ans[i]==j?"checked":""}
+      onclick="ans[${i}]=${j}">
+      ${o}
+    </label>
+  `).join("");
+
+  // tombol kembali hanya muncul mulai soal ke-2
+  document.getElementById("btnPrev").style.display =
+    i === 0 ? "none" : "block";
+
+  btn.innerText = i === quiz.length-1 ? "Selesai" : "Lanjut";
+}
+
+function next(){
+  if(i < quiz.length-1){
+    i++;
+    render();
+  }else{
+    let s = 0;
+    ans.forEach((a,j)=>{ if(a === quiz[j].a) s++; });
+
+    skor.style.display = "block";
+    skor.style.marginTop = "25px";
+    skor.innerHTML = `🎉 Skor Kamu<br><br><b>${s*10} / 100</b>`;
+  }
+}
+
+function prev(){
+  if(i > 0){
+    i--;
+    render();
+  }
+}
+
+render();
+</script>
+
+</body>
+</html>
