@@ -420,29 +420,70 @@ Jadi, jika Hesy ingin membeli 1 apel dan 4 jeruk, maka ia harus membayar sebesar
 <div id="simulator" class="page">
 <h2>🧮 Simulator SPLDV</h2>
 
+<!-- ================= METODE CAMPURAN ================= -->
 <div class="section sim-card">
 
-  <div class="persamaan">
-    <input id="a1" placeholder="x">
-    <span>+</span>
-    <input id="b1" placeholder="y">
-    <span>=</span>
-    <input id="c1" placeholder="hasil">
-  </div>
+<b>Metode Campuran</b><br><br>
 
-  <div class="persamaan">
-    <input id="a2" placeholder="x">
-    <span>+</span>
-    <input id="b2" placeholder="y">
-    <span>=</span>
-    <input id="c2" placeholder="hasil">
-  </div>
+<div class="persamaan">
+<input id="a1" placeholder="x">
+<span>+</span>
+<input id="b1" placeholder="y">
+<span>=</span>
+<input id="c1" placeholder="....">
+</div>
 
-  <button class="btn-main pink" onclick="hitungSPLDV()"> Hitung Nilai x dan y</button>
+<div class="persamaan">
+<input id="a2" placeholder="x">
+<span>+</span>
+<input id="b2" placeholder="y">
+<span>=</span>
+<input id="c2" placeholder="...">
+</div>
 
-  <div id="hasil" class="result lucu"></div>
+<!-- BARIS PERTANYAAN -->
+<div class="persamaan">
+<input id="t1" placeholder="x">
+<span>+</span>
+<input id="t2" placeholder="y">
+<span>=</span>
+<input id="t3" placeholder="?" readonly>
+</div>
+
+<button class="btn-main" onclick="hitungSPLDV()">Hitung</button>
+
+<div id="hasil" class="result lucu"></div>
 
 </div>
+
+
+<!-- ================= METODE SUBSTITUSI ================= -->
+<div class="section sim-card">
+
+<b>Metode Substitusi</b><br><br>
+
+<div class="persamaan">
+<input id="subx" placeholder="...">
+<span>+</span>
+<input id="suby" placeholder="...">
+<span>=</span>
+<input id="subc" placeholder="...">
+</div>
+
+<div class="persamaan">
+<input id="suby2" placeholder="...">
+<span>=</span>
+<input id="subx2" placeholder="...">
+<span>+</span>
+<input id="subd" placeholder="..." >
+</div>
+
+<button class="btn-main" onclick="hitungSubstitusi()">Hitung</button>
+
+<div id="hasilSub" class="result lucu"></div>
+
+</div>
+
 </div>
 
 <!-- KUIS -->
@@ -451,9 +492,15 @@ Jadi, jika Hesy ingin membeli 1 apel dan 4 jeruk, maka ia harus membayar sebesar
 <div class="section sim-card">
   <div id="soal"></div>
   <div id="opsi"></div>
+  <div id="hasilJawaban" style="
+margin-top:15px;
+font-weight:600;
+text-align:center;
+"></div>
   <div style="display:flex;gap:10px">
   <button class="btn-main" id="btnPrev" onclick="prev()">⬅ Kembali</button>
-  <button class="btn-main" id="btn" onclick="next()">Lanjut</button>
+  <button class="btn-main" id="btnCek" onclick="cekJawaban()">Cek Jawaban</button>
+  <button class="btn-main" id="btnNext" onclick="next()" style="display:none">Soal Berikutnya</button>
 </div>
 
 <div id="skor" class="result lucu" style="display:none;margin-top:30px"></div>
@@ -479,6 +526,9 @@ Guru Pengampu<br><b>Lina Andriani, S.Pd</b><br>SMK Muhammadiyah Loa Janan
 </footer>
 
 <script>
+    function formatAngka(num){
+  return num.toLocaleString('id-ID');
+}
 function showPage(id){
   document.querySelectorAll('.page').forEach(p=>p.style.display='none');
   document.getElementById(id).style.display='block';
@@ -486,32 +536,156 @@ function showPage(id){
 
 /* ===== PERBAIKAN SIMULATOR ===== */
 function hitungSPLDV(){
-  let a = parseFloat(document.getElementById("a1").value);
-  let b = parseFloat(document.getElementById("b1").value);
-  let c = parseFloat(document.getElementById("c1").value);
 
-  let d = parseFloat(document.getElementById("a2").value);
-  let e = parseFloat(document.getElementById("b2").value);
-  let f = parseFloat(document.getElementById("c2").value);
+let a = parseFloat(document.getElementById("a1").value);
+let b = parseFloat(document.getElementById("b1").value);
+let c = parseFloat(document.getElementById("c1").value);
 
-  if (isNaN(a) || isNaN(b) || isNaN(c) || isNaN(d) || isNaN(e) || isNaN(f)) {
-    hasil.innerHTML = "⚠️ Semua kolom harus diisi!";
-    return;
-  }
+let d = parseFloat(document.getElementById("a2").value);
+let e = parseFloat(document.getElementById("b2").value);
+let f = parseFloat(document.getElementById("c2").value);
 
-  let det = a * e - b * d;
+let t1 = parseFloat(document.getElementById("t1").value);
+let t2 = parseFloat(document.getElementById("t2").value);
 
-  if (det === 0) {
-    hasil.innerHTML = "❌ Tidak ada solusi";
-    return;
-  }
-
-  let x = (c * e - b * f) / det;
-  let y = (a * f - c * d) / det;
-
-  hasil.innerHTML = ` Hasil:<br>x = ${x}<br>y = ${y}`;
+if(isNaN(a)||isNaN(b)||isNaN(c)||isNaN(d)||isNaN(e)||isNaN(f)||isNaN(t1)||isNaN(t2)){
+hasil.innerHTML="⚠️ Semua kolom harus diisi!";
+return;
 }
-/* ===== AKHIR PERBAIKAN ===== */
+
+let det = a*e - b*d;
+
+if(det==0){
+hasil.innerHTML="❌ Tidak ada solusi";
+return;
+}
+
+let x = (c*e - b*f) / det;
+let y = (a*f - c*d) / det;
+
+/* ubah ke rupiah */
+x = x * 1000000;
+y = y * 1000000;
+
+let jawaban = (t1*x) + (t2*y);
+
+hasil.innerHTML=`
+
+<b>Penyelesaian</b><br><br>
+
+Persamaan 1<br>
+${a}x + ${b}y = ${formatAngka(c*1000000)}<br><br>
+
+Persamaan 2<br>
+${d}x + ${e}y = ${formatAngka(f*1000000)}<br><br>
+
+Hasil diperoleh<br>
+x = ${formatAngka(x)}<br>
+y = ${formatAngka(y)}<br><br>
+
+Ditanya<br>
+${t1}x + ${t2}y = ?<br><br>
+
+Substitusi nilai<br>
+${t1}(${formatAngka(x)}) + ${t2}(${formatAngka(y)})<br><br>
+
+Hasil akhir<br>
+<b>${formatAngka(jawaban)}</b><br><br>
+
+<b>Kesimpulan</b><br><br>
+
+x = ${formatAngka(x)}<br>
+y = ${formatAngka(y)}<br><br>
+
+Hasil dari ${t1}x + ${t2}y adalah:<br>
+<b>${formatAngka(jawaban)}</b>
+`;
+}
+
+function substitusiSPLDV(){
+
+let a = parseFloat(document.getElementById("s1a").value);
+let b = parseFloat(document.getElementById("s1b").value);
+let c = parseFloat(document.getElementById("s1c").value);
+
+let d = parseFloat(document.getElementById("s2a").value);
+let e = parseFloat(document.getElementById("s2b").value);
+let f = parseFloat(document.getElementById("s2c").value);
+
+if (isNaN(a) || isNaN(b) || isNaN(c) || isNaN(d) || isNaN(e) || isNaN(f)) {
+hasilSub.innerHTML = "⚠️ Semua kolom harus diisi!";
+return;
+}
+
+let det = a * e - b * d;
+
+if(det === 0){
+hasilSub.innerHTML = "❌ Tidak ada solusi unik";
+return;
+}
+
+let y = (a * f - c * d) / det;
+let x = (c - b * y) / a;
+
+hasilSub.innerHTML = `
+<b>Penyelesaian Metode Substitusi</b><br><br>
+
+Persamaan 1:<br>
+${a}x + ${b}y = ${formatAngka(c)}<br><br>
+
+Ubah menjadi:<br>
+x = (${formatAngka(c)} - ${b}y) / ${a}<br><br>
+
+Substitusi ke persamaan 2:<br>
+${d}x + ${e}y = ${formatAngka(f)}<br><br>
+
+<b>Hasil:</b><br>
+x = ${formatAngka(x)}<br>
+y = ${formatAngka(y)}
+`;
+}
+
+function hitungSubstitusi(){
+
+let c = parseFloat(document.getElementById("subc").value);
+let d = parseFloat(document.getElementById("subd").value);
+
+if(isNaN(c) || isNaN(d)){
+hasilSub.innerHTML = "⚠️ Isi angka hasilnya!";
+return;
+}
+
+let x = (c - d) / 2;
+let y = x + d;
+
+hasilSub.innerHTML = `
+<b>Langkah Penyelesaian</b><br><br>
+
+Persamaan 1<br>
+x + y = ${c}<br><br>
+
+Persamaan 2<br>
+y = x + ${d}<br><br>
+
+Substitusi:<br>
+x + (x + ${d}) = ${c}<br>
+2x + ${d} = ${c}<br>
+2x = ${c-d}<br>
+x = ${(c-d)/2}<br><br>
+
+y = x + ${d}<br>
+y = ${x} + ${d}<br>
+y = ${y}<br><br>
+
+<b>Hasil</b><br>
+x = ${x}<br>
+y = ${y}
+`;
+}
+
+function rupiah(angka){
+return angka.toLocaleString("id-ID");
+}
 
 const quiz = [
  {
@@ -629,20 +803,23 @@ function render(){
   document.getElementById("btnPrev").style.display =
     i === 0 ? "none" : "block";
 
-  btn.innerText = i === quiz.length-1 ? "Selesai" : "Lanjut";
+  document.getElementById("btnNext").innerText =
+i === quiz.length-1 ? "Selesai" : "Soal Berikutnya";
 }
 
 function next(){
+
+  hasilJawaban.innerHTML = "";
+  document.getElementById("btnNext").style.display = "none";
+  document.getElementById("btnCek").style.display = "block";
+
   if(i < quiz.length-1){
     i++;
     render();
-  }else{
-    let s = 0;
-    ans.forEach((a,j)=>{ if(a === quiz[j].a) s++; });
-
+  }
+  else{
     skor.style.display = "block";
-    skor.style.marginTop = "25px";
-    skor.innerHTML = `🎉 Skor Kamu<br><br><b>${s*10} / 100</b>`;
+    skor.innerHTML = `🎉 Skor Kamu<br><br><b>${skorTotal} / 100</b>`;
   }
 }
 
@@ -654,6 +831,32 @@ function prev(){
 }
 
 render();
+
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.style.display='none');
+  document.getElementById(id).style.display='block';
+}
+
+let skorTotal = 0;
+
+function cekJawaban(){
+
+  if(ans[i] == null){
+    hasilJawaban.innerHTML = "⚠️ Pilih jawaban dulu!";
+    return;
+  }
+
+  if(ans[i] === quiz[i].a){
+    hasilJawaban.innerHTML = "✅ Jawaban Benar!";
+    skorTotal += 10;
+  }
+  else{
+    hasilJawaban.innerHTML = "❌ Jawaban Salah!";
+  }
+
+  document.getElementById("btnNext").style.display = "block";
+  document.getElementById("btnCek").style.display = "none";
+}
 </script>
 
 </body>
