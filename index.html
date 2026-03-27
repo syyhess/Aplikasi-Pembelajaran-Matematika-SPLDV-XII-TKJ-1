@@ -529,6 +529,9 @@ Guru Pengampu<br><b>Lina Andriani, S.Pd</b><br>SMK Muhammadiyah Loa Janan
     function formatAngka(num){
   return num.toLocaleString('id-ID');
 }
+function parseRupiah(value){
+  return parseFloat(value.replace(/\./g,''));
+}
 function showPage(id){
   document.querySelectorAll('.page').forEach(p=>p.style.display='none');
   document.getElementById(id).style.display='block';
@@ -537,17 +540,16 @@ function showPage(id){
 /* ===== PERBAIKAN SIMULATOR ===== */
 function hitungSPLDV(){
 
-let a = parseFloat(document.getElementById("a1").value);
-let b = parseFloat(document.getElementById("b1").value);
-let c = parseFloat(document.getElementById("c1").value);
+let a = parseRupiah(document.getElementById("a1").value);
+let b = parseRupiah(document.getElementById("b1").value);
+let c = parseRupiah(document.getElementById("c1").value);
 
-let d = parseFloat(document.getElementById("a2").value);
-let e = parseFloat(document.getElementById("b2").value);
-let f = parseFloat(document.getElementById("c2").value);
+let d = parseRupiah(document.getElementById("a2").value);
+let e = parseRupiah(document.getElementById("b2").value);
+let f = parseRupiah(document.getElementById("c2").value);
 
-let t1 = parseFloat(document.getElementById("t1").value);
-let t2 = parseFloat(document.getElementById("t2").value);
-
+let t1 = parseRupiah(document.getElementById("t1").value);
+let t2 = parseRupiah(document.getElementById("t2").value);
 if(isNaN(a)||isNaN(b)||isNaN(c)||isNaN(d)||isNaN(e)||isNaN(f)||isNaN(t1)||isNaN(t2)){
 hasil.innerHTML="⚠️ Semua kolom harus diisi!";
 return;
@@ -563,10 +565,6 @@ return;
 let x = (c*e - b*f) / det;
 let y = (a*f - c*d) / det;
 
-/* ubah ke rupiah */
-x = x * 1000000;
-y = y * 1000000;
-
 let jawaban = (t1*x) + (t2*y);
 
 hasil.innerHTML=`
@@ -574,10 +572,10 @@ hasil.innerHTML=`
 <b>Penyelesaian</b><br><br>
 
 Persamaan 1<br>
-${a}x + ${b}y = ${formatAngka(c*1000000)}<br><br>
+${a}x + ${b}y = ${formatAngka(c)}<br><br>
 
 Persamaan 2<br>
-${d}x + ${e}y = ${formatAngka(f*1000000)}<br><br>
+${d}x + ${e}y = ${formatAngka(f)}<br><br>
 
 Hasil diperoleh<br>
 x = ${formatAngka(x)}<br>
@@ -599,6 +597,7 @@ y = ${formatAngka(y)}<br><br>
 
 Hasil dari ${t1}x + ${t2}y adalah:<br>
 <b>${formatAngka(jawaban)}</b>
+
 `;
 }
 
@@ -846,13 +845,17 @@ function cekJawaban(){
     return;
   }
 
-  if(ans[i] === quiz[i].a){
-    hasilJawaban.innerHTML = "✅ Jawaban Benar!";
-    skorTotal += 10;
-  }
-  else{
-    hasilJawaban.innerHTML = "❌ Jawaban Salah!";
-  }
+ if(ans[i] === quiz[i].a){
+  hasilJawaban.innerHTML = "✅ Jawaban Benar!";
+  skorTotal += 10;
+}
+else{
+  hasilJawaban.innerHTML = `
+  ❌ Jawaban Salah!<br><br>
+   Jawaban yang benar:<br>
+  <b>${quiz[i].o[quiz[i].a]}</b>
+  `;
+}
 
   document.getElementById("btnNext").style.display = "block";
   document.getElementById("btnCek").style.display = "none";
